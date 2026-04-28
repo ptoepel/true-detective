@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  true-detective:
+    image: nginx:alpine
+    container_name: true-detective
+    volumes:
+      - .:/usr/share/nginx/html
+    networks:
+      - proxy-network
+
+networks:
+  proxy-network:
+    external: true

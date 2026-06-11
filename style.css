@@ -1,49 +1,124 @@
-*{
-    padding:0;
-    margin:0;
-    box-sizing: border-box;
+* { padding: 0; margin: 0; box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    background:
+        radial-gradient(ellipse at 50% 110%, #4a2a14 0%, #1a0e08 45%, #06060a 100%);
+    color: #d8c39a;
+    overflow: hidden;
+    min-height: 100vh;
 }
 
-body{
-    font-family:"Montserrat",sans-serif;
-
+.hero {
+    position: relative;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    isolation: isolate;
 }
 
-.hero{
-    min-height:100vh;
-    position:relative;
-
-}
-
-.hero img{
+/* Slow warm "sun" behind the title that gives the letters their living light. */
+.sun {
     position: absolute;
-    left:0;
-    top:0;
-    height:100%;
-    width: 100%;
-    z-index: 1;
-
-    mix-blend-mode: lighten;
-    animation:reveal 1s ease forwards;
-    opacity:0;
+    inset: 0;
+    background:
+        radial-gradient(circle at 50% 70%,
+            rgba(255, 196, 110, 0.55) 0%,
+            rgba(220, 100, 40, 0.30) 25%,
+            rgba(40, 16, 6, 0) 55%);
+    filter: blur(8px);
+    z-index: -2;
+    animation: breathe 14s ease-in-out infinite;
 }
 
-.hero video{
+/* Subtle grain + vignette - the "old film" texture. */
+.vignette {
     position: absolute;
-    left:0;
-    top:0;
-    height:100%;
-    width:100%;
-    object-fit: cover;
-    animation:reveal 1s ease 0.5s forwards;
-    opacity:0;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.65) 100%),
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.015) 0 1px, transparent 1px 3px);
+    pointer-events: none;
+    z-index: -1;
 }
 
-@keyframes reveal {
-    from{
-        opacity:0;
-    }
-    to{
-        opacity: 1;
-    }
+.title-card {
+    text-align: center;
+    padding: 0 24px;
+    max-width: 1000px;
+    animation: rise 1.4s ease 0.2s both;
+}
+
+.overline {
+    font-family: "Special Elite", "Courier New", monospace;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    font-size: clamp(10px, 1.2vw, 13px);
+    color: rgba(216, 195, 154, 0.55);
+    margin-bottom: 28px;
+}
+
+.title {
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: 0.05em;
+    font-size: clamp(48px, 12vw, 168px);
+    color: transparent;
+    /* The trick: animated sky-gradient revealed through the letterforms,
+       just like the original where Sky.mp4 played through whtiebackground.jpg. */
+    background:
+        linear-gradient(180deg,
+            #fff5d8 0%,
+            #f6c560 20%,
+            #b86a2a 45%,
+            #4d2710 70%,
+            #1a0b06 100%),
+        radial-gradient(circle at 30% 20%, #ffe7a3 0%, transparent 40%),
+        radial-gradient(circle at 70% 80%, #5a2810 0%, transparent 50%);
+    background-size: 100% 220%, 200% 200%, 200% 200%;
+    background-position: 50% 0%, 50% 50%, 50% 50%;
+    -webkit-background-clip: text;
+            background-clip: text;
+    animation: drift 22s linear infinite;
+    text-shadow:
+        0 0 30px rgba(255, 175, 70, 0.10);
+}
+
+.title span {
+    display: block;
+}
+
+.subtitle {
+    margin-top: 32px;
+    font-style: italic;
+    font-size: clamp(15px, 1.6vw, 20px);
+    letter-spacing: 0.04em;
+    color: rgba(232, 210, 170, 0.85);
+}
+
+.byline {
+    margin-top: 18px;
+    font-family: "Special Elite", "Courier New", monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.32em;
+    font-size: clamp(10px, 1.05vw, 12px);
+    color: rgba(216, 195, 154, 0.55);
+}
+
+@keyframes breathe {
+    0%, 100% { transform: scale(1);   opacity: 0.85; }
+    50%      { transform: scale(1.06); opacity: 1; }
+}
+
+@keyframes drift {
+    0%   { background-position: 50% 0%,   0%   50%, 100% 50%; }
+    50%  { background-position: 50% 60%,  100% 50%, 0%   50%; }
+    100% { background-position: 50% 0%,   0%   50%, 100% 50%; }
+}
+
+@keyframes rise {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
